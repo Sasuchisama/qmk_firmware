@@ -22,10 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "keycode.h"
 #include "util.h"
 
-#ifdef JOYSTICK_ENABLE
-#    include "joystick.h"
-#endif
-
 // clang-format off
 
 /* HID report IDs */

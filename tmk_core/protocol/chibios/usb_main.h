@@ -33,8 +33,8 @@
 /* Initialize the USB driver and bus */
 void init_usb_driver(USBDriver *usbp);
 
-/* Restart the USB driver and bus */
-void restart_usb_driver(USBDriver *usbp);
+/* Start the USB driver */
+void usb_start(USBDriver *usbp);
 
 /* ---------------
  * USB Event queue
@@ -56,5 +56,8 @@ void usb_event_queue_task(void);
 
 /* Putchar over the USB console */
 int8_t sendchar(uint8_t c);
+
+/* Flush output (send everything immediately) */
+void console_flush_output(void);
 
 #endif /* CONSOLE_ENABLE */
