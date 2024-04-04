@@ -91,3 +91,7 @@
 /* Factory test keys */
 #define FN_KEY1 MO(1)
 #define FN_KEY2 MO(3)
+
+
+// VIA Custom Settings 104* 3 bytes (HSV) + 2 Byte int = 312 bytes
+#define VIA_EEPROM_CUSTOM_CONFIG_SIZE 314

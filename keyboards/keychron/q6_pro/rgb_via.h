@@ -16,6 +16,7 @@
     // struct to save things
     typedef struct {
         HSV color[104]; //Anzahl der Tasten
+        int isActive = 0;
     } rgb_per_key_settings_config;
 
 

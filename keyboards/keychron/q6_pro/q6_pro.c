@@ -18,6 +18,7 @@
 #include "rgb_via.h"
 #include "rgb_matrix.h"
 
+
 #ifdef KC_BLUETOOTH_ENABLE
 #    include "ckbt51.h"
 #    include "bluetooth.h"
@@ -352,6 +353,9 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
     #include "quantum.h"
     #include "eeprom.h"
 
+#define TRUE 1
+#define FALSE 0
+
 // Lege eine globale Config für die Werte jeder einzelner Taste
 rgb_per_key_settings_config g_rgb_p_key_config;
 
@@ -391,7 +395,7 @@ void rgb_per_key_matrix_set_value(uint8_t *data) {
 
         case id_rgb_per_key_matrix_color: {
             uint8_t index = value_data[0]; // == 0,1,2
-            if ( index >= 0 && index < 3 ){
+            if ( index >= 0 && index < 104 ){
             	RGB rgb = hsv_to_rgb( (HSV){ .h = value_data[1],
             								 .s = value_data[2],
 											 .v = rgb_matrix_get_val() });
@@ -441,13 +445,11 @@ void via_custom_value_command_kb(uint8_t *data, uint8_t length) {
             }
             case id_custom_get_value:
             {
-                //TODO
                 rgb_per_key_matrix_get_value(value_id_and_data);
                 break;
             }
             case id_custom_save:
             {
-                //TODO
                 values_save();
                 break;
             }
@@ -473,9 +475,11 @@ void via_custom_value_command_kb(uint8_t *data, uint8_t length) {
 
 void keyboard_post_init_user(void) {
   // Call the post init code.
-    rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_individual_rgb);
     via_init_kb();
-
+    if(g_rgb_p_key_config.isActive){ // use a button in via to change the attribute
+        rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_individual_rgb);
+    }
+ 
 
 
     RGB rgb = hsv_to_rgb(rgb_matrix_config.hsv);
@@ -488,13 +492,10 @@ void keyboard_post_init_user(void) {
 
         RGB rgb = hsv_to_rgb((HSV){ .h = g_rgb_p_key_config.color[i].h,
                                     .s = g_rgb_p_key_config.color[i].s,
-                                    .v = g_rgb_p_key_config.color[i].v } );
+                                    .v = rgb_matrix_get_val()  } );
 
         rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
     }
 }
-
-
-
 
 #endif
