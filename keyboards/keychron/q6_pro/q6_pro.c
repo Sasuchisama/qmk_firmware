@@ -359,7 +359,6 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
 // Lege eine globale Config für die Werte jeder einzelner Taste
 rgb_per_key_settings_config g_rgb_p_key_config;
 
-
 void values_load(void)
 {
     eeprom_read_block( &g_rgb_p_key_config, ((void*)VIA_EEPROM_CUSTOM_CONFIG_ADDR), sizeof(g_rgb_p_key_config) );
@@ -407,6 +406,10 @@ void rgb_per_key_matrix_set_value(uint8_t *data) {
             }
             break;
         }
+        case id_rgb_per_key_is_active: {
+			g_rgb_p_key_config.isActive = *value_data;            
+            break;
+        }
     }
 }
 
@@ -423,6 +426,11 @@ void rgb_per_key_matrix_get_value( uint8_t *data )
             uint8_t index = value_data[0]; // == 0,1,2
             value_data[1] = g_rgb_p_key_config.color[index].h;
             value_data[2] = g_rgb_p_key_config.color[index].s;
+            break;
+        }
+        case id_rgb_per_key_is_active:
+        {
+            *value_data = g_rgb_p_key_config.isActive;
             break;
         }
     }
@@ -478,23 +486,14 @@ void keyboard_post_init_user(void) {
     via_init_kb();
     if(g_rgb_p_key_config.isActive){ // use a button in via to change the attribute
         rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_individual_rgb);
-    }
- 
+        for (uint8_t i = 0; i < 104; i++) { // Anzahl der Tasten
 
-
-    RGB rgb = hsv_to_rgb(rgb_matrix_config.hsv);
-    for (uint8_t i = 0; i < 104; i++) {
+            RGB rgb = hsv_to_rgb((HSV){ .h = g_rgb_p_key_config.color[i].h,
+                                        .s = g_rgb_p_key_config.color[i].s,
+                                        .v = rgb_matrix_get_val()  } );
+                                        
         rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
-    }
-
-
-    for (uint8_t i = 0; i < 104; i++) { // Anzahl der Tasten
-
-        RGB rgb = hsv_to_rgb((HSV){ .h = g_rgb_p_key_config.color[i].h,
-                                    .s = g_rgb_p_key_config.color[i].s,
-                                    .v = rgb_matrix_get_val()  } );
-
-        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+        }
     }
 }
 

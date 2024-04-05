@@ -74,7 +74,13 @@
               "label": "Color Index 2",
               "type": "color",
               "content": ["id_rgb_per_key_matrix_color[2]", 0, 1, 2]
-            }                     
+            },
+            {
+              "label": "per Key RGB Mode",
+              "type": "toggle",
+              "content": ["id_rgb_per_key_is_active", 0, 2]
+            },
+            
           ]
         }
       ]
