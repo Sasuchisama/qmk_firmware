@@ -92,6 +92,5 @@
 #define FN_KEY1 MO(1)
 #define FN_KEY2 MO(3)
 
-
 // VIA Custom Settings 104* 3 bytes (HSV) + 1 Byte int = 313 bytes
-#define VIA_EEPROM_CUSTOM_CONFIG_SIZE 314
+#define VIA_EEPROM_CUSTOM_CONFIG_SIZE (RGB_MATRIX_LED_COUNT * 3 + 1 + 5) 

@@ -6,3 +6,6 @@ RGB_MATRIX_CUSTOM_KB = yes
 
 include keyboards/keychron/bluetooth/bluetooth.mk
 include keyboards/keychron/common/common.mk
+
+# Include Source for individual RGB per key
+SRC += keyboards/keychron/rgb_pKey_via/rgb_via.c

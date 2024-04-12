@@ -61,6 +61,11 @@
               "content": ["id_qmk_rgb_matrix_color", 3, 4]
             },
             {
+              "label": "Primary Color RGB",
+              "type": "color",
+              "content": ["id_rgb_per_key_matrix_primary_color", 0, 3]
+            },
+            {
               "label": "Color Index 0",
               "type": "color",
               "content": ["id_rgb_per_key_matrix_color[0]", 0, 1, 0]
@@ -79,8 +84,7 @@
               "label": "per Key RGB Mode",
               "type": "toggle",
               "content": ["id_rgb_per_key_is_active", 0, 2]
-            },
-            
+            }
           ]
         }
       ]
