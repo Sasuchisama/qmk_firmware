@@ -7,6 +7,12 @@
 #ifdef VIA_ENABLE
 #    include "via.h"
 
+// VIA Custom Settings 104* 3 bytes (HSV) + 1 Byte int = 313 bytes
+#ifdef VIA_EEPROM_CUSTOM_CONFIG_SIZE
+#undef VIA_EEPROM_CUSTOM_CONFIG_SIZE
+#endif
+#define VIA_EEPROM_CUSTOM_CONFIG_SIZE (RGB_MATRIX_LED_COUNT * 3 + 1 + 5) 
+
     // Handler fuer via
     enum via_qmk_rgb_per_key_value {
 

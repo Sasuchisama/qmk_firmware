@@ -32,6 +32,18 @@ void via_init_kb(void)
 }
 
 
+void updateKeyboardColor(void){
+    if(g_rgb_p_key_config.isActive){ // if isActivate-Ttggle is active, load on startup the config
+        rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_individual_rgb);
+        for (uint8_t i = 0; i < RGB_MATRIX_LED_COUNT; i++) { // Number of keyboard-keys - 
+            RGB rgb = hsv_to_rgb((HSV){ .h = g_rgb_p_key_config.color[i].h,
+                                        .s = g_rgb_p_key_config.color[i].s,
+                                        .v = rgb_matrix_get_val()  } );
+                                        
+        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+        }
+    }
+}
 
 
 void rgb_per_key_matrix_set_value(uint8_t *data) {
@@ -73,7 +85,8 @@ void rgb_per_key_matrix_set_value(uint8_t *data) {
             break;
         }        
         case id_rgb_per_key_is_active: {
-			g_rgb_p_key_config.isActive = *value_data;            
+			g_rgb_p_key_config.isActive = *value_data;  
+            updateKeyboardColor();
             break;
         }
     }
@@ -153,16 +166,7 @@ void via_custom_value_command_kb(uint8_t *data, uint8_t length) {
 void keyboard_post_init_user(void) {
   // Call the post init code.
     via_init_kb();
-    if(g_rgb_p_key_config.isActive){ // if isActivate-Ttggle is active, load on startup the config
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_individual_rgb);
-        for (uint8_t i = 0; i < RGB_MATRIX_LED_COUNT; i++) { // Number of keyboard-keys - 
-            RGB rgb = hsv_to_rgb((HSV){ .h = g_rgb_p_key_config.color[i].h,
-                                        .s = g_rgb_p_key_config.color[i].s,
-                                        .v = rgb_matrix_get_val()  } );
-                                        
-        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
-        }
-    }
+    updateKeyboardColor();
 }
 
 #endif
